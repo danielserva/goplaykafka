@@ -9,8 +9,7 @@ import (
 )
 
 const (
-	KAFKASERVER = "localhost:19092"
-	KAFKATOPIC  = "purchases"
+	KAFKASERVER = string("localhost:19092")
 )
 
 func main() {
@@ -50,7 +49,7 @@ func main() {
 
 	users := [...]string{"daniel", "britt", "roy", "mats", "mama", "papa"}
 	items := [...]string{"book", "alarm clock", "t-shirts", "gift card", "batteries"}
-
+	KAFKATOPIC := "purchases"
 	for n := 0; n < 10; n++ {
 		key := users[rand.Intn(len(users))]
 		data := items[rand.Intn(len(items))]
