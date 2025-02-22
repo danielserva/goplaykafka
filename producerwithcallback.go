@@ -8,8 +8,8 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 )
 
-func produce() {
-	fmt.Println("I am a kafka producer!")
+func produceWithCallback() {
+	fmt.Println("I am a kafka producer with callback!")
 
 	// connects with localhost
 	p, err := kafka.NewProducer(&kafka.ConfigMap{
@@ -54,12 +54,25 @@ func produce() {
 	}()
 
 	KAFKATOPIC := "demo_kafka"
-	data := "hello world from go"
+	data := "value with callback"
 	p.Produce(&kafka.Message{
 		TopicPartition: kafka.TopicPartition{Topic: &KAFKATOPIC, Partition: kafka.PartitionAny},
 		Key:            nil,
 		Value:          []byte(data),
 	}, nil)
+
+	// users := [...]string{"daniel", "britt", "roy", "mats", "mama", "papa"}
+	// items := [...]string{"book", "alarm clock", "t-shirts", "gift card", "batteries"}
+	// KAFKATOPIC := "purchases"
+	// for n := 0; n < 10; n++ {
+	// 	key := users[rand.Intn(len(users))]
+	// 	data := items[rand.Intn(len(items))]
+	// 	p.Produce(&kafka.Message{
+	// 		TopicPartition: kafka.TopicPartition{Topic: &KAFKATOPIC, Partition: kafka.PartitionAny},
+	// 		Key:            []byte(key),
+	// 		Value:          []byte(data),
+	// 	}, nil)
+	// }
 
 	// Wait for all messages to be delivered
 	p.Flush(15 * 1000)

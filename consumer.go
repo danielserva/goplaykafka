@@ -10,7 +10,8 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 )
 
-func main() {
+// TODO: fix the function name
+func mainFunction() {
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
 		"bootstrap.servers": "localhost:19092",
 		"group.id":          "goplaykafka",
