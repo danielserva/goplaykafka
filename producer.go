@@ -3,13 +3,12 @@ package main
 import (
 	"fmt"
 	"os"
-	"time"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 )
 
 func produce() {
-	fmt.Println("I am a kafka producer!")
+	fmt.Println("I am a kafka producer written in go!")
 
 	// connects with localhost
 	p, err := kafka.NewProducer(&kafka.ConfigMap{
@@ -35,24 +34,6 @@ func produce() {
 		os.Exit(1)
 	}
 
-	// Go-routine to handle message delivery reports and
-	// possibly other event types (errors, stats, etc)
-	go func() {
-		for e := range p.Events() {
-			switch ev := e.(type) {
-			case *kafka.Message:
-				if ev.TopicPartition.Error != nil {
-					fmt.Printf("Failed to deliver message: %v\n", ev.TopicPartition)
-				} else {
-					fmt.Printf("Produced event to topic %s: key = %-10s value = %s\n",
-						*ev.TopicPartition.Topic, string(ev.Key), string(ev.Value))
-					fmt.Printf("partition = %d offset = %s TimeStamp = %v\n",
-						ev.TopicPartition.Partition, ev.TopicPartition.Offset.String(), ev.Timestamp.Format(time.RFC822Z))
-				}
-			}
-		}
-	}()
-
 	KAFKATOPIC := "demo_kafka"
 	data := "hello world from go"
 	p.Produce(&kafka.Message{
@@ -62,7 +43,7 @@ func produce() {
 	}, nil)
 
 	// Wait for all messages to be delivered
-	p.Flush(15 * 1000)
+	p.Flush(15 * 100)
 	p.Close()
 
 }
